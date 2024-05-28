@@ -8,7 +8,6 @@ class AirQualityData {
   final double pm25;
   final double pm10;
   final double no2;
-  final double o3;
   final int airQualityIndex;
   final String airQualityStatus;
   final String iconPath;
@@ -21,7 +20,6 @@ class AirQualityData {
     required this.pm25,
     required this.pm10,
     required this.no2,
-    required this.o3,
     required this.airQualityIndex,
     required this.airQualityStatus,
     required this.iconPath,
@@ -48,17 +46,17 @@ class AirQualityData {
 
   static String getPollutantIconPath(int aqi) {
     if (aqi <= 50) {
-      return 'assets/1.png';
+      return 'assets/methane.png';
     } else if (aqi <= 100) {
-      return 'assets/12.png';
+      return 'assets/carbon-monoxide.png';
     } else if (aqi <= 150) {
-      return 'assets/3.png';
+      return 'assets/13.png';
     } else if (aqi <= 200) {
-      return 'assets/1.png';
+      return 'assets/7.png';
     } else if (aqi <= 300) {
       return 'assets/8.png';
     } else {
-      return 'assets/6.png';
+      return 'assets/14.png';
     }
   }
 
@@ -93,8 +91,7 @@ class AirQualityData {
        final pm25 = hour * 13.5 + 10;
       final pm10 = hour * 7.0 + 5;
       final no2 = hour * 5.0 + 3;
-      final o3 = hour * 2.0 + 1;
-      final aqi = (pm25 + pm10 + no2 + o3).toInt(); //  AQI calculation
+      final aqi = (pm25 + pm10 + no2).toInt(); //  AQI calculation
 
       final aqiStatus = determineAirQualityIndex(aqi);
       final iconPath = getPollutantIconPath(aqi);
@@ -106,7 +103,6 @@ class AirQualityData {
         pm25: pm25,
         pm10: pm10,
         no2: no2,
-        o3: o3,
         airQualityIndex: aqi,
         airQualityStatus: aqiStatus,
         iconPath: iconPath,

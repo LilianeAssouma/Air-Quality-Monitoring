@@ -62,7 +62,7 @@ class _IntroScreenState extends State<IntroScreen> {
             child: Column(
               children: [
                 const Spacer(),
-                Image.asset("assets/1.png"),
+                Image.asset("assets/7.png"),
                 const Spacer(flex: 2),
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10.0),

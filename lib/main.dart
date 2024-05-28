@@ -25,9 +25,9 @@ class MyApp extends StatelessWidget {
         '/':(context) =>IntroScreen(),
         '/home':(context) => HomeScreen(),
         '/hours':(context) => HoursGaugescreen(),
-        '/chart': (context) => HourlyAirQualityChart(),
         '/health': (context) => HealthEffectsPage(),
-        '/view':(context) =>AirQualityDetailPage()
+        '/view':(context) =>AirQualityDetailPage(),
+        '/chart':(context) =>SensorDataChart(),
       },
     );
   }
