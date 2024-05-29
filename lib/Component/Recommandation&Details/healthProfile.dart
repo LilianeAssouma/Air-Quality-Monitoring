@@ -32,25 +32,33 @@ class HealthEffectsPage extends StatelessWidget {
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const Divider(thickness: 1),
-            pollutantDetailsCard(pollutant: 'PM2.5', healthEffects: [
-              'Respiratory problems, including coughing, wheezing, and shortness of breath.',
-              'Increased risk of heart disease, stroke, and lung cancer.',
-            ], learnMoreUrl: 'https://www.epa.gov/pm2/health-effects-pm25'),
-            pollutantDetailsCard(pollutant: 'PM10', healthEffects: [
-              'Similar health effects as PM2.5, but generally less severe.',
-              'Can irritate the eyes, nose, and throat.',
-            ], learnMoreUrl: 'https://www.epa.gov/pm2/health-effects-pm10'),
-            pollutantDetailsCard(pollutant: 'Ozone (O3)', healthEffects: [
-              'Respiratory problems, including coughing, wheezing, and chest tightness.',
-              'Reduced lung function.',
-              'Increased risk of asthma attacks.',
-            ], learnMoreUrl: 'https://www.epa.gov/ground-level-ozone-pollution/health-effects-ozone-pollution'),
-            pollutantDetailsCard(pollutant: 'Nitrogen Dioxide (NO2)', healthEffects: [
-              'Respiratory problems, including coughing, wheezing, and shortness of breath.',
-              'Can irritate the lungs.',
-              'May contribute to asthma development.',
-            ], learnMoreUrl: 'https://www.epa.gov/no2-pollution/health-effects-no2-pollution'),
+            pollutantDetailsCard(pollutant: 'Carbon Monoxide', healthEffects: [
+              '0-95 ppm: Generally considered safe for healthy adults.',
+              '95-200 ppm: May cause mild headaches, nausea, dizziness, and fatigue after several hours of exposure.',
+              '200-500 ppm: Can cause headaches, nausea, vomiting, and confusion within 2-3 hours.',
+              '500-1500 ppm: Can lead to disorientation, drowsiness, and loss of coordination within 1-2 hours.',
+              '1500-4000 ppm: Can cause severe headaches, weakness, vomiting, and collapse within 15-30 minutes.',
+              '4000+ ppm: Can be fatal within minutes.',
+            ], learnMoreUrl: 'https://www.osha.gov/sites/default/files/publications/carbonmonoxide-factsheet.pdf'),
+            pollutantDetailsCard(pollutant: 'Methane', healthEffects: [
+              'Below 1000 ppm: Generally considered unlikely to cause health effects in healthy adults for short-term exposure.',
+              '1000-5000 ppm: May cause headaches, nausea, and dizziness with prolonged exposure.',
+              '5000-10,000 ppm: Can lead to asthmatic symptoms, difficulty breathing, and impaired coordination.',
+              'Above 10,000 ppm: Risk of suffocation increases significantly.',
+            ], learnMoreUrl: 'https://minearc.com/methane-health-and-safety-hazards-fact-sheet/'),
+            
+                    pollutantDetailsCard(pollutant: 'Temperature', healthEffects: [
+              'Below 15°C: Can lead to shivering, decreased circulation, and eventually hypothermia in prolonged exposure.',
+              '15-25°C: Generally considered a comfortable temperature range for most people.',
+              '25-35°C: Can cause discomfort, sweating, and increased risk of heat exhaustion in prolonged exposure.',
+              'Above 35°C: Can lead to heatstroke, which is a serious medical condition with potential for organ damage or death.',
+            ], learnMoreUrl: 'https://minearc.com/methane-health-and-safety-hazards-fact-sheet/'),
             const SizedBox(height: 10),
+             const Text(
+              'Temperature Effects on Health:',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+           
             const Text(
               'Empowering Informed Decisions:',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -60,10 +68,6 @@ class HealthEffectsPage extends StatelessWidget {
               textAlign: TextAlign.justify,
             ),
             const SizedBox(height: 15),
-            const Text('- When air quality is good (AQI <= 50), you can enjoy outdoor activities without worry.'),
-            const Text('- When air quality is moderate (AQI <= 100), you may want to limit strenuous outdoor activities, especially if you have respiratory problems.'),
-            const Text('- When air quality is unhealthy (AQI > 100), it\'s best to avoid prolonged outdoor exertion and stay indoors as much as possible, especially for sensitive individuals.'),
-            const SizedBox(height: 10),
             const Text(
               'Identifying Dominant Pollutants:',              
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -108,8 +112,7 @@ class HealthEffectsPage extends StatelessWidget {
           SizedBox(height: 8),
           InkWell(
             onTap: () {
-              // Implement navigation to learn more page
-              
+                            
               
             },
             child: Text(
@@ -123,3 +126,7 @@ class HealthEffectsPage extends StatelessWidget {
   );
 }
 }
+
+
+
+

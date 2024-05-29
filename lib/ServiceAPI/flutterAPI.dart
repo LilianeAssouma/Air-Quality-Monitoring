@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 
 Future<List<SensorData>> fetchData() async {
-  final response = await http.get(Uri.parse('http://172.31.213.161:3000/sensor-data'));
+  final response = await http.get(Uri.parse('http://192.168.1.116:3000/sensor-data'));
   if (response.statusCode == 200) {
     Iterable list = json.decode(response.body);
     return list.map((model) => SensorData.fromJson(model)).toList();
@@ -39,40 +39,43 @@ class SensorData {
   }
 
   String getCoCategory() {
-    if (mq9Value <= 50) {
-      return 'Good';
-    } else if (mq9Value <= 100) {
-      return 'Moderate';
+    if (mq9Value <= 95) {
+      return 'Generally considered safe for healthy adults.';
+    } else if (mq9Value <= 200) {
+      return ' May cause mild headaches, nausea, dizziness, and fatigue after several hours of exposure.';
     } else if (mq9Value <= 150) {
       return 'Unhealthy for Sensitive Groups';
-    } else if (mq9Value <= 200) {
-      return 'Unhealthy';
-    } else if (mq9Value <= 300) {
-      return 'Very Unhealthy';
-    } else {
-      return 'Hazardous';
+    } else if (mq9Value <= 500) {
+      return 'Can cause headaches, nausea, vomiting, and confusion within 2-3 hours.';
+    } else if (mq9Value <= 1500) {
+      return 'Can lead to disorientation, drowsiness, and loss of coordination within 1-2 hours.';
+    } else if(mq9Value <=4000){
+       return 'Can cause severe headaches, weakness, vomiting, and collapse within 15-30 minutes.';
+    }
+    else {
+      return 'Can be fatal within minutes.';
     }
   }
+
+
 
   String getMh4Image() {
     return 'assets/methane.png'; // Simplified for this example
   }
 
   String getMh4Category() {
-    if (mq7Value <= 50) {
-      return 'Good';
-    } else if (mq7Value <= 100) {
-      return 'Moderate';
-    } else if (mq7Value <= 150) {
-      return 'Unhealthy for Sensitive Groups';
-    } else if (mq7Value <= 200) {
-      return 'Unhealthy';
-    } else if (mq7Value <= 300) {
-      return 'Very Unhealthy';
-    } else {
-      return 'Hazardous';
+    if (mq7Value <= 1000) {
+      return 'Generally considered unlikely to cause health effects in healthy adults for short-term exposure.';
+    } else if (mq7Value <= 5000) {
+      return 'May cause headaches, nausea, and dizziness with prolonged exposure';
+    } else if (mq7Value <= 10000) {
+      return 'Can lead to asthmatic symptoms, difficulty breathing, and impaired coordination.';
+    }  else {
+      return 'Risk of suffocation increases significantly.';
     }
   }
+
+
 
   String getTemperatureImage() {
     return 'assets/7.png'; // Simplified for this example

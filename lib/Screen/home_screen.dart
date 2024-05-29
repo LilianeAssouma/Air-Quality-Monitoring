@@ -251,7 +251,7 @@ class AirQualityWidget extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 child: TextButton(
                   onPressed: () {
-                    Navigator.pushReplacementNamed(context, '/view');
+                    Navigator.pushReplacementNamed(context, '/chart');
                   },
                   child: const Text('View more!'),
                 ),

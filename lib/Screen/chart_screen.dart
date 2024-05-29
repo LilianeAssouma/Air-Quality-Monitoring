@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:airquality_flutter_application/ServiceAPI/flutterAPI.dart';
-
+import 'package:airquality_flutter_application/MyData/my_data.dart';
 
 
 class SensorDataChart extends StatelessWidget {
@@ -40,7 +40,7 @@ class SensorDataChart extends StatelessWidget {
                         maximum: 500, // Adjust maximum as needed
                         interval: 50, // Adjust interval as needed
                       ),
-                      title: ChartTitle(text: 'Sensor Data for the Last 5 Readings'),
+                      title: ChartTitle(text: 'Sensor Data Readings'),
                       legend: Legend(isVisible: true),
                       tooltipBehavior: TooltipBehavior(
                         enable: true,
@@ -74,9 +74,48 @@ class SensorDataChart extends StatelessWidget {
                   ),
                   SizedBox(height: 20),
                   Text(
-                    'Additional information or controls can be placed here.',
+                    'AQI Details',
                     style: TextStyle(fontSize: 16),
                   ),
+                  FutureBuilder<List<SensorData>>(
+        future: fetchData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(child: Text('No data available'));
+          } else {
+            final sensorDataList = snapshot.data!;
+            final latestData = sensorDataList.last;
+            return Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                   Text(
+                    'Latest Temperature: ${latestData.temperature} °C - ${latestData.getTemperatureCategory()}',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    'Latest CO Level: ${latestData.mq9Value} PPM - ${latestData.getCoCategory()}',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 8),
+                   Text(
+                    'Latest Methane Level: ${latestData.mq7Value} PPM - ${latestData.getMh4Category()}',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  
+                  SizedBox(height: 8),
+                ],
+              ),
+            );
+          }
+        },
+      ),
                 ],
               ),
             ),
@@ -87,17 +126,17 @@ class SensorDataChart extends StatelessWidget {
   }
 
   static Color getColorForAQI(int aqi) {
-    if (aqi <= 50) {
+    if (aqi <= 100) {
       return Colors.green;
-    } else if (aqi <= 100) {
-      return Colors.yellow;
-    } else if (aqi <= 150) {
-      return Colors.orange;
     } else if (aqi <= 200) {
-      return Colors.red; 
+      return Colors.yellow;
+    } else if (aqi <= 10000) {
+      return Colors.orange;
     } else {
-      return Colors.brown;
+      return Colors.red;
     }
   }
 }
+
+
 
