@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Air Quality App',
-      initialRoute: '/home',
+      initialRoute: '/chart',
       routes: {
         '/':(context) =>IntroScreen(),
         '/home':(context) => HomeScreen(),

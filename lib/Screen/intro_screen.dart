@@ -26,7 +26,7 @@ class _IntroScreenState extends State<IntroScreen> {
               width: 300,
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
-                color: Color.fromARGB(255, 3, 67, 120),
+                color: Color(0xffABCFF2),
               ),
             ),
           ),
@@ -47,7 +47,7 @@ class _IntroScreenState extends State<IntroScreen> {
               height: 300,
               width: 600,
               decoration: const BoxDecoration(
-                color: Colors.blue,
+                color:Color.fromARGB(255, 3, 62, 110),
               ),
             ),
           ),

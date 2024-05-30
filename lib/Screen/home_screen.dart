@@ -14,8 +14,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int temperature = 0;
-  String location = 'Kigali'; 
-  List<String> cities = ['Kigali']; 
+  String location = 'Nyarugenge'; 
+  List<String> cities = ['Nyarugenge']; 
   List consolidatedWeatherList = []; 
   late List<SensorData> sensorData;
 
@@ -111,7 +111,7 @@ void initState() {
             ),
             
             const SizedBox(
-              height: 50,
+              height: 30,
             ),
               Center(
                 child: Align(
@@ -130,6 +130,10 @@ void initState() {
               width: size.width,
               height: 250,
               decoration: BoxDecoration(
+                image:const DecorationImage(
+                    image: AssetImage('assets/imagesAir.jpg'), 
+                    fit: BoxFit.cover, 
+                     ),
                 
                   color: Color(0xffABCFF2),
                   borderRadius: BorderRadius.circular(15),
@@ -153,20 +157,7 @@ void initState() {
                             height: 150,
                           ),
                   ),
-                  const Positioned(
-                    bottom: 30,
-                    left: 20,
-                    child: Text(
-                      "Stay Informed, Breathe Better,\nLive Healthier",
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 10,),
-                   
-         
+                  const SizedBox(height: 10,),
                   Positioned(
                     top: 20,
                     right: 20,
@@ -187,9 +178,18 @@ void initState() {
                 ],
               ),
             ),
+    
+          const SizedBox(height: 25,),
+          const Text(
+              "Stay Informed, Breathe Better, Live Healthier. Accessible Air Solutions for a Cleaner Environment",
+              style: TextStyle(
+                color: Colors.black,fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
             
             const SizedBox(
-              height: 50,
+              height: 15,
             ),
               Align(
                 alignment: Alignment.bottomCenter,
@@ -207,7 +207,68 @@ void initState() {
 
 
 
+//Animating horizontally
 
+class HorizontalSlideAnimation extends StatefulWidget {
+  final String text;
+  final TextStyle? textStyle;
+  final double slideDistance;
+  final int durationSeconds;
+
+  const HorizontalSlideAnimation({
+    Key? key,
+    required this.text,
+    this.textStyle,
+    this.slideDistance = 200.0, 
+    this.durationSeconds = 2, 
+  }) : super(key: key);
+
+  @override
+  _HorizontalSlideAnimationState createState() => _HorizontalSlideAnimationState();
+}
+
+class _HorizontalSlideAnimationState extends State<HorizontalSlideAnimation> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: Duration(seconds: widget.durationSeconds),
+      vsync: this,
+    )..repeat(reverse: true);
+
+    _animation = Tween<double>(begin: 0, end: widget.slideDistance).animate(_controller)
+      ..addListener(() {
+        setState(() {});
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Transform.translate(
+      offset: Offset(_animation.value, 0),
+      child: Text(
+        widget.text,
+        style: widget.textStyle,
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+//Fetching data for temperature
 
 class AirQualityWidget extends StatelessWidget {
   final Future<List<SensorData>> sensorDataFuture;

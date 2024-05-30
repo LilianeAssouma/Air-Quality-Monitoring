@@ -5,7 +5,6 @@ import 'package:airquality_flutter_application/ServiceAPI/flutterAPI.dart';
 import 'package:airquality_flutter_application/Component/TopNavigation/topNavBar.dart';
 
 
-
 class SensorDataChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -26,7 +25,7 @@ class SensorDataChart extends StatelessWidget {
 
           return Scaffold(
             appBar: AppBar(
-              title: Text('Sensor Data Chart'),
+              title: Text('Sensor Data Readings'),
             ),
             drawer: MenuUtils.buildMenu(context),
             body: SingleChildScrollView(
@@ -50,8 +49,8 @@ class SensorDataChart extends StatelessWidget {
                           maximum: 500, // Adjust maximum as needed
                           interval: 50, // Adjust interval as needed
                         ),
-                        title: ChartTitle(text: 'Sensor Data Readings'),
-                        legend: Legend(isVisible: true),
+                        legend: Legend(isVisible: true,),
+
                         tooltipBehavior: TooltipBehavior(
                           enable: true,
                           header: '',
@@ -76,17 +75,17 @@ class SensorDataChart extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 20),
-                   const Align(
-                      alignment: Alignment.center,
-                      child: const Text(
-                      'Risk Level Evaluation',
-                       style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-                    ),
-                    ),
+                //    const Align(
+                //       alignment: Alignment.center,
+                //       child: const Text(
+                //       'Risk Level Evaluation',
+                //        style: const TextStyle(
+                //   color: Colors.black,
+                //   fontSize: 20,
+                //   fontWeight: FontWeight.bold,
+                // ),
+                //     ),
+                //     ),
                     SizedBox(height: 20),
                     BarchartDetails(sensorData: recentData),
                   ],
@@ -111,9 +110,6 @@ class SensorDataChart extends StatelessWidget {
     }
   }
 }
-
-
-
 
 class BarchartDetails extends StatelessWidget {
   final List<SensorData> sensorData;
