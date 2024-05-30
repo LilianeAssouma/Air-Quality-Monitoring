@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:airquality_flutter_application/Component/TopNavigation/topNavBar.dart';
-
 import 'package:airquality_flutter_application/ServiceAPI/flutterAPI.dart';
+import 'package:airquality_flutter_application/Screen/alertMessage.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -17,11 +17,27 @@ class _HomeScreenState extends State<HomeScreen> {
   String location = 'Kigali'; 
   List<String> cities = ['Kigali']; 
   List consolidatedWeatherList = []; 
+  late List<SensorData> sensorData;
+
+  void checkAirPollution() {
+  if (sensorData.isNotEmpty) {
+    final latestData = sensorData.first;
+    if (latestData.mq9Value > 350 || latestData.mq7Value > 700) {
+      showAirPollutionAlert(context, latestData);
+    }
+  }
+}
 
   @override
-  void initState() {
-    super.initState();
-  }
+void initState() {
+  super.initState();
+  fetchData().then((data) {
+    setState(() {
+      sensorData = data;
+      checkAirPollutionLevels(context, sensorData); //air pollution levels after fetching data
+    });
+  });
+}
 
   //Create a shader linear gradient
   final Shader linearGradient = const LinearGradient(
@@ -150,7 +166,160 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(height: 10,),
                    
-            //        FutureBuilder<List<SensorData>>(
+         
+                  Positioned(
+                    top: 20,
+                    right: 20,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'o',
+                          style: TextStyle(
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                            foreground: Paint()..shader = linearGradient,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            
+            const SizedBox(
+              height: 50,
+            ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: AirQualityWidget(
+                 sensorDataFuture: fetchData(),
+           )
+              ),
+              ],
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+class AirQualityWidget extends StatelessWidget {
+  final Future<List<SensorData>> sensorDataFuture;
+
+  const AirQualityWidget({Key? key, required this.sensorDataFuture})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<SensorData>>(
+      future: sensorDataFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return Center(child: Text('No data available'));
+        } else {
+          final latestData = snapshot.data!.last;
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(context, '/chart');
+                  },
+                  child: const Text('View more!'),
+                ),
+              ),
+              const SizedBox(height: 10),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    airQualityItem(
+                      text: 'Temperature',
+                      value:  latestData.temperature.round(),
+                      unit: '°C',
+                      imagePath: latestData.getTemperatureImage(),
+                    ),
+                    const SizedBox(width: 10),
+                    airQualityItem(
+                      text: 'CO',
+                      value: latestData.mq9Value.round(), // Round for consistency
+                      unit: '',
+                      imagePath: latestData.getCoImage(),
+                    ),
+                    const SizedBox(width: 10),
+                    airQualityItem(
+                      text: 'Methane',
+                      value: latestData.mq7Value.round(), // Round for consistency
+                      unit: '',
+                      imagePath: latestData.getMh4Image(),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        }
+      },
+    );
+  }
+
+  Widget airQualityItem({
+    required String text,
+    required int value,
+    required String unit,
+    required String imagePath,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.blue.withOpacity(0.5),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      padding: const EdgeInsets.all(10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.asset(
+            imagePath,
+            width: 50,
+            height: 50,
+            fit: BoxFit.cover,
+          ),
+          const SizedBox(height: 5),
+          Text(
+            '$text: $value $unit',
+            style: TextStyle(color: Colors.white, fontSize: 16),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+   //        FutureBuilder<List<SensorData>>(
             //   future: fetchData(),
             //   builder: (context, snapshot) {
             //     if (snapshot.connectionState == ConnectionState.waiting) {
@@ -180,150 +349,3 @@ class _HomeScreenState extends State<HomeScreen> {
             //     }
             //   },
             // ),
-                  Positioned(
-                    top: 20,
-                    right: 20,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'o',
-                          style: TextStyle(
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold,
-                            foreground: Paint()..shader = linearGradient,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            
-            const SizedBox(
-              height: 50,
-            ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: AirQualityWidget(sensorDataFuture: fetchData()),
-              ),
-              ],
-        ),
-      ),
-    );
-  }
-}
-
-
-
-
-
-
-
-
-
-
-class AirQualityWidget extends StatelessWidget {
-  final Future<List<SensorData>> sensorDataFuture;
-
-  const AirQualityWidget({Key? key, required this.sensorDataFuture})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<List<SensorData>>(
-      future: sensorDataFuture,
-      builder: (context, snapshot) {
-        // Handle loading, error, and no data states
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        } else if (snapshot.data == null || snapshot.data!.isEmpty) {
-          return Center(child: Text('No data available'));
-        } else {
-          final List<SensorData> sensorDataList = snapshot.data!;
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.pushReplacementNamed(context, '/chart');
-                  },
-                  child: const Text('View more!'),
-                ),
-              ),
-              const SizedBox(height: 10),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    airQualityItem(
-                      text: 'Temperature',
-                      value: sensorDataList.first.temperature.round(),
-                      unit: '°C',
-                      imageUrl: sensorDataList.first.getTemperatureImage(),
-                    ),
-                    const SizedBox(width: 10),
-                    airQualityItem(
-                      text: 'CO',
-                      value: sensorDataList.first.mq9Value,
-                      unit: '',
-                      imageUrl: sensorDataList.first.getCoImage(),
-                    ),
-                    const SizedBox(width: 10),
-                    airQualityItem(
-                      text: 'Methane',
-                      value: sensorDataList.first.mq7Value,
-                      unit: '',
-                      imageUrl: sensorDataList.first.getMh4Image(),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          );
-        }
-      },
-    );
-  }
-
-  Widget airQualityItem({
-    required String text,
-    required int value,
-    required String unit,
-    required String imageUrl,
-  }) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.blue.withOpacity(0.5),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      padding: const EdgeInsets.all(10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Image.asset(
-            imageUrl,
-            width: 50,
-            height: 50,
-            fit: BoxFit.cover,
-          ),
-          const SizedBox(height: 5),
-          Text(
-            '$text: $value $unit',
-            style: TextStyle(color: Colors.white, fontSize: 16),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-
-
-
-  

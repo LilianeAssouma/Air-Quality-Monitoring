@@ -116,3 +116,15 @@ class AirQualityData {
     return getColorForAQI(airQualityIndex);
   }
 }
+
+
+
+
+
+// //  AirQualityLevel.good: "Air quality is good.",
+// //   AirQualityLevel.moderate: "Air quality is moderate. Unusually sensitive people may experience respiratory symptoms.",
+// //   AirQualityLevel.unhealthySensitiveGroups: "Air quality is unhealthy for sensitive groups. People with heart or lung disease, older adults, and children are at greater risk.",
+// //   AirQualityLevel.unhealthy: "Air quality is unhealthy for everyone. Everyone may begin to experience health effects; measures may be needed to limit prolonged or outdoor activity.",
+// //   AirQualityLevel.veryUnhealthy: "Air quality is very unhealthy. Health warnings of serious effects are likely. Dramatic reduction in healthy activity is recommended.",
+// //   AirQualityLevel.hazardous: "Air quality is hazardous. Air quality is very dangerous. Everyone may experience more serious health effects.",
+// // };

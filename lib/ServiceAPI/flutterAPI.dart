@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 
@@ -8,11 +7,11 @@ Future<List<SensorData>> fetchData() async {
   if (response.statusCode == 200) {
     Iterable list = json.decode(response.body);
     return list.map((model) => SensorData.fromJson(model)).toList();
+    
   } else {
     throw Exception('Failed to load data');
   }
 }
-
 
 
 
@@ -31,11 +30,10 @@ class SensorData {
         temperature = json['temperature'].toDouble(),
         latitude = json['latitude']?.toDouble(),
         longitude = json['longitude']?.toDouble();
-
-
+ 
 
         String getCoImage() {
-    return 'assets/carbon-monoxide.png'; // Simplified for this example
+    return 'assets/carbon-monoxide.png'; 
   }
 
   String getCoCategory() {

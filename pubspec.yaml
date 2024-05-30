@@ -31,6 +31,7 @@ dependencies:
   geolocator: ^12.0.0
   http: ^1.2.1
   async: ^2.11.0
+  fl_chart: ^0.68.0
    
   
   english_words: ^4.0.0

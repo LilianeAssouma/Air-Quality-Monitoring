@@ -1,10 +1,10 @@
 
 import 'package:airquality_flutter_application/Component/Recommandation&Details/healthProfile.dart';
-import 'package:airquality_flutter_application/Component/Recommandation&Details/recomscreen.dart';
 import 'package:airquality_flutter_application/Screen/chart_screen.dart';
 
 import 'package:airquality_flutter_application/Screen/intro_screen.dart';
 import 'package:airquality_flutter_application/Screen/second_screen.dart';
+import 'package:airquality_flutter_application/Screen/alertMessage.dart';
 import 'package:flutter/material.dart';
 import 'package:airquality_flutter_application/Screen/home_screen.dart';
 
@@ -26,8 +26,8 @@ class MyApp extends StatelessWidget {
         '/home':(context) => HomeScreen(),
         '/hours':(context) => HoursGaugescreen(),
         '/health': (context) => HealthEffectsPage(),
-        '/view':(context) =>AirQualityDetailPage(),
         '/chart':(context) =>SensorDataChart(),
+        
       },
     );
   }

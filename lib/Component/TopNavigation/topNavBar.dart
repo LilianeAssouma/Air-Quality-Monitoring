@@ -34,12 +34,7 @@ class MenuUtils {
                 Navigator.pushNamed(context, '/health');
               },
             ),
-            ListTile(
-              title: const Text('TimeS'),
-              onTap: () {
-                Navigator.pushNamed(context, '/hours');
-              },
-            ),
+           
 
           ],
         ),

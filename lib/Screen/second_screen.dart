@@ -7,7 +7,6 @@ import 'package:airquality_flutter_application/Component/TopNavigation/topNavBar
 import 'package:airquality_flutter_application/Component/Hours/hoursCtrl.dart';
 import 'package:airquality_flutter_application/MyData/my_data.dart';
 import 'package:airquality_flutter_application/Component/Hours/hours_list.dart';
-import 'package:airquality_flutter_application/Component/Recommandation&Details/recomscreen.dart';
 
 import 'dart:ui'; // Import ImageFilter
 
@@ -173,3 +172,42 @@ class AirQualityGauge extends StatelessWidget {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class RecommendationDisplay extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final AQHoursList aqHoursList = Get.put(AQHoursList());
+
+    return Obx(() {
+      final selectedData = aqHoursList.selectedAirQualityData.value;
+
+      // Check if selectedData is not null before accessing its recommendation
+      final recommendation = selectedData?.recommendation ?? 'No recommendation available';
+
+      return Column(
+        children: [
+          Text(
+            recommendation,
+            style: TextStyle(fontSize: 16.0,color: Colors.white),
+            textAlign: TextAlign.center,
+          ),
+          
+        ],
+      );
+    });
+  }
+}
